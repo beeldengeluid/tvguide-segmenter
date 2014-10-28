@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-Test
-
 class Line:
    'Common base class for all lines'
 
@@ -10,6 +8,15 @@ class Line:
       self.words = []
       #self.fontSize = fontSize 
       self.blockIdx = blockIdx 
+      self.fontSize = 0
+
+   def getFontSize(self):
+      fs = 0-9
+      for w in self.words:
+         fs+=int(w.fontSize)
+      self.fontSize = fs / len(self.words)
+      return fs / len(self.words)
+
 
    def string(self):
       s=''
@@ -18,6 +25,8 @@ class Line:
       return s 
 
    def getBroadcaster(self):
+      #try to get broadcaster from a list. TODO: load the list via cmdline arguments.
+
       broadcasterList = ['NOS','AVRO','VARA','NCRV','KRO','VPRO','KRO/RKK','NOS/NOT','ROF','TELEAC','HV']
       #score = process.extractOne(self.string(), broadcasterList)
       #print "%", b, score
@@ -43,13 +52,37 @@ class Line:
             return nn
 
    def getTime(self):
-      t = re.findall('([0-23]{1,2}[.|:|,]{1}[0-59]{2})(?!\d)', l.string(), re.I)
-      
-      #if len(t) is 1:
-      #   print "whegfjwybrf", t[0].split('.', 1);
+      t = re.findall('([0-23]{1,2}[.|:]{1}[0-59]{2})(?!\d)', l.string(), re.I)
+
+      if len(t) is 1:
+
+         if re.split('[.|:|,]', t[0])[0] < '23' and re.split('[.|:|,]', t[0])[1] < '60':
+            print t
+            return t
+      elif len(t) is 2:
+         if re.split('[.|:|,]', t[0])[0] < 23 and re.split('[.|:|,]', t[0])[1] < 60 and re.split('[.|:|,]', t[1])[0] < 24 and re.split('[.|:|,]', t[1])[1] < 60:
+            return t
+       
+  
+               #   print "whegfjwybrf", t[0].split('.', 1);
       #elif len(t) is 2:
       #   return t[0]+' tot en met '+t[1]
-      return t
+
+   def getDate(self):
+    #print self.fontSize
+    if self.fontSize > 10:
+       months = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'oct', 'nov', 'dec']
+       for month in months:
+          mu = month.upper()
+          ml = month.lower()
+          d = re.findall('([0-9]{1,2}[\s]'+mu+'[.])', self.string(), re.I)
+          if len(d) > 0:
+             return d[0]
+       #d = re.findall('([0-9]{1,2}[\s]'+ml+'[.])', self.string(), re.I)
+       #if len(d) > 0:
+       #   return d[0]
+
+      
 
    def getBounds(self):
       self.l = None
@@ -99,6 +132,8 @@ class Program:
       self.broadcaster = ''
       self.description = []
       self.title = ''
+      self.src = ''
+      self.date = ''
       self.l = None
       self.t = None
       self.r = None
@@ -187,8 +222,45 @@ def writeCsv( programList ):
          file.write("\n")
          file.close()           
 
+def writeXml( p ):
+   for p in programList:
+      if len(p.string()) < 2000:
+         program = ET.SubElement(root, 'program')
+         program.set('x', str(p.getBounds()[0]))
+         program.set('y', str(p.getBounds()[1]))
+         program.set('w', str(p.getBounds()[2]))
+         program.set('h', str(p.getBounds()[3]))
+         
+         os.path.basename(inputdir)
+   
+         src = ET.SubElement(program, 'source')
+         src.text = p.src
+   
+   
+         date = ET.SubElement(program, 'date')
+         date.text = p.date
+      
+         startTime = ET.SubElement(program, 'startTime')
+         startTime.text = p.startTime
+         
+         stopTime = ET.SubElement(program, 'stopTime')
+         stopTime.text = p.stopTime
+      
+         net = ET.SubElement(program, 'net')
+         net.text = p.net
+      
+         broadcaster = ET.SubElement(program, 'broadcaster')
+         broadcaster.text = p.broadcaster
+      
+         description = ET.SubElement(program, 'desc')
+         description.text = p.string()
+         
+root = ET.Element('programs')
+root.set('version', '1.0') 
 
-for root, dirs, filenames in os.walk(inputdir):
+
+
+for fsroot, dirs, filenames in os.walk(inputdir):
    filenames.sort()
    for f in filenames:
       if str(f) != ".xml" :
@@ -238,18 +310,26 @@ for root, dirs, filenames in os.walk(inputdir):
          
          programList = []
          
-         b=n=t=''
+         b=n=t=d=''
          
+         for l in lineList: 
+            #l.getFontSize()
+            #l.string()
+            if l.getDate() is not None: d=l.getDate() 
+
          for l in lineList: 
             #print l.string(), l.getBounds()
             if l.getNet() is not None: n=l.getNet()   
             if l.getBroadcaster() is not None: b=l.getBroadcaster()
-            if len(l.getTime()) > 0:
+            if l.getTime() > 0:
+               
                try:
                   programList.append(programobj) 
                except:
                   foo = 'bar'
                programobj = Program()
+               programobj.src = os.path.basename(ff)
+
                if len(l.getTime()) is 1:
                   programobj.startTime = l.getTime()[0]
                elif len(l.getTime()) is 2:
@@ -257,6 +337,7 @@ for root, dirs, filenames in os.walk(inputdir):
                   programobj.stopTime = l.getTime()[1]
                programobj.net = n
                programobj.broadcaster = b
+               programobj.date = d
                programobj.description.append(l.words)
          
                #if l.l < programobj.l: programobj.l=l.l
@@ -273,14 +354,13 @@ for root, dirs, filenames in os.walk(inputdir):
 
          
          programList.append(programobj)
-         
-         root = ET.Element('programs')
-         root.set('version', '1.0')
-         
+         writeXml(programList)
+ 
 
-
-         file = open(bn+".csv", "a")
-         
+xml = ET.tostring(root,encoding='utf8', pretty_print=True)      
+fp = open(bn+".xml", "w")
+fp.write(xml)
+fp.close()
          #file.write("<html>\n")
          #file.write("<head>\n")
          #file.write("<link rel=\"stylesheet\" href=\"style.css\">\n")
