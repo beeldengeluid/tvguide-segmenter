@@ -1,0 +1,25 @@
+date_fs=8    #verschilt van 23 tot 8. 8 komt het meest voor
+date_ff=Times
+date_bold=0
+
+time_fs=8    #font size verschilt, soms 8 soms 9
+time_ff=Times
+time_bold=0
+time_separator=.
+
+prog_name_fs=8    #font size verschilt, soms 8 soms 9
+prog_name_ff=Times
+prog_name_bold=0    #soms bold, meestal niet
+
+prog_desc_fs=8    #font size verschilt, soms 8 soms 9
+prog_desc_ff=Times
+prog_desc_bold=0
+
+broadcaster_fs=11    #verschil enorm, op een andere pagina is het 16 en Arial
+broadcaster_ff=Times
+broadcaster_bold=0    #op de ene pagina bold, andere niet.
+broadcaster_loc=above   #Location in respect to program information
+
+channel_fs= #is geen zender, want er was toen alleen Nederland 1.
+channel_ff=
+channel_bold=

@@ -1,0 +1,25 @@
+date_fs=10
+date_ff=Arial
+date_bold=0
+
+time_fs=10
+time_ff=Arial 
+time_bold=0
+time_separator=.
+
+prog_name_fs=9
+prog_name_ff=Arial
+prog_name_bold=1
+
+prog_desc_fs=9
+prog_desc_ff=Arial 
+prog_desc_bold=0
+
+broadcaster_fs=12
+broadcaster_ff=Arial
+broadcaster_bold=0
+broadcaster_loc=above   #Location in respect to program information
+
+channel_fs=22
+channel_ff=Arial
+channel_bold=1
