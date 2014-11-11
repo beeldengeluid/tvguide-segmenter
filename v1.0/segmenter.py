@@ -71,13 +71,12 @@ class Line:
    def getTime(self):
       #try to find valid time in current line
       if self.getFontSize() is int(config.value['time_fs']) or int(config.value['time_fs']) is 0:
-         t = re.findall('([0-23]{1,2}[.|:]{1}[0-59]{2})(?!\d)', self.string(), re.I)
-         #print t
+         t = re.findall('([0-9]{1,2}[.|:]{1}[0-9]{2})(?!\d)', self.string(), re.I)
          if len(t) is 1:
-            if int(re.split('[.|:|,]', t[0])[0]) < 23 and int(re.split('[.|:|,]', t[0])[1]) < 60:
+            if int(re.split('[.|:]', t[0])[0]) < 24 and int(re.split('[.|:]', t[0])[1]) < 60:
                return t
          elif len(t) is 2:
-            if int(re.split('[.|:|,]', t[0])[0]) < 23 and int(re.split('[.|:|,]', t[0])[1]) < 60 and int(re.split('[.|:|,]', t[1])[0]) < 24 and int(re.split('[.|:|,]', t[1])[1]) < 60:
+            if int(re.split('[.|:]', t[0])[0]) < 24 and int(re.split('[.|:]', t[0])[1]) < 60 and int(re.split('[.|:]', t[1])[0]) < 24 and int(re.split('[.|:]', t[1])[1]) < 60:
                return t
 
 
@@ -270,7 +269,7 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
       if str(f) != ".xml" :
          bn = os.path.basename(inputdir)
          
-         config = Config("/Users/picturae/Desktop/PROJECTS/OMROEPGIDSEN/configs/"+bn+".txt") #load configfile
+         config = Config("/Users/picturae/Desktop/PROJECTS/OMROEPGIDSEN/tvguide-segmenter/configs/"+bn+".txt") #load configfile
          print bn
          
          ff = str(inputdir + "/" + str(f))
@@ -321,11 +320,11 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
             if l.getDate() is not None: d=l.getDate() 
 
          for l in lineList: 
+
             if l.getNet() is not None: n=l.getNet()   
             if l.getBroadcaster() is not None: b=l.getBroadcaster()
-
+            
             if l.getTime() > 0:
-               
                try:
                   programList.append(programobj) 
                except:
@@ -334,12 +333,11 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
                programobj.src = os.path.basename(ff)
 
                if len(l.getTime()) is 1:
-
                   programobj.startTime = l.getTime()[0]
                elif len(l.getTime()) is 2:
-         
                   programobj.startTime = l.getTime()[0]
                   programobj.stopTime = l.getTime()[1]
+
                programobj.net = n
                programobj.broadcaster = b
                programobj.date = d
