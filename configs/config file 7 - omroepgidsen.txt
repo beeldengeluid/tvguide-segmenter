@@ -1,4 +1,10 @@
-Google docsconfig file 7 - omroepgidsen.docx 
+
+Google docs
+config file 7 - omroepgidsen.docx
+
+
+
+ 
 
 date_fs=13 
 
@@ -6,19 +12,19 @@ date_ff=Arial
 
 date_bold=1 
 
-time_fs=9#of time_fs=10 
+time_fs=9 			#of time_fs=10 
 
 time_ff=Arial 
 
-time_bold=1#of time_bold=0 
+time_bold=1 			#of time_bold=0 
 
 time_separator=.     
 
-prog_name_fs=9#of prog_name_fs=10 
+prog_name_fs=9 						#of prog_name_fs=10 
 
 prog_name_ff=Arial 
 
-prog_name_bold=1#of prog_name_bold=0 
+prog_name_bold=1 					#of prog_name_bold=0 
 
 prog_desc_fs=9 
 

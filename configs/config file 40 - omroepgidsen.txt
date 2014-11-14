@@ -1,6 +1,12 @@
-Google docsconfig file 40 - omroepgidsen.docx 
 
-#date niet in txt file want deze wordt verticaal op zijn kant aangegeven 
+Google docs
+config file 40 - omroepgidsen.docx
+
+
+
+ 
+
+date_fs= 									#date niet in txt file want deze wordt verticaal op zijn kant aangegeven 
 
 time_fs=9 
 

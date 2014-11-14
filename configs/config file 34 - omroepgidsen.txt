@@ -1,6 +1,12 @@
-Google docsconfig file 34 - omroepgidsen.docx 
 
-date_fs=41#dit geldt voor cijfer, maand is Times, Fs 15 en niet vet gedrukt 
+Google docs
+config file 34 - omroepgidsen.docx
+
+
+
+ 
+
+date_fs=41 			#dit geldt voor cijfer, maand is Times, Fs 15 en niet vet gedrukt 
 
 date_ff=Arial 
 

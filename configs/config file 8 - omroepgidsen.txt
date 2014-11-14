@@ -1,6 +1,12 @@
-Google docsconfig file 8 - omroepgidsen.docx 
 
-date_fs=16#cursief 
+Google docs
+config file 8 - omroepgidsen.docx
+
+
+
+ 
+
+date_fs=16 #cursief 
 
 date_ff=Arial 
 

@@ -1,6 +1,12 @@
-Google docsconfig file 43 - omroepgidsen.docx 
 
-#datum niet in txt file, is wit met zwarte rand 
+Google docs
+config file 43 - omroepgidsen.docx
+
+
+
+ 
+
+date_fs=0
 
 time_fs=9 
 

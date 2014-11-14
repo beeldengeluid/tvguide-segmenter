@@ -1,5 +1,8 @@
 #!/usr/bin/python
-
+def xstr(s):
+  if s is None:
+     return ''
+  return s
 
 class Week:
 
@@ -395,6 +398,8 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
          word = ''
          confidence=word_l=word_t=word_r=word_b=None
          
+     
+
          for block in doc.iter(str( QName( namespace, 'block' ) )):
             for line in block.iter(str( QName( namespace, 'line' ) )):
                lineobj = Line(sortIndex(block))
@@ -409,14 +414,14 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
                         word_t=int(c.get('t'))
                         word_r=int(c.get('r'))
                         word_b=int(c.get('b'))
-                        word=c.text
+                        word=xstr(c.text)
                      else:
                         if c.get('charConfidence') is not None: confidence+=int(c.get('charConfidence'))
                         if c.get('l') < word_l: word_l=int(c.get('l'))
                         if c.get('t') < word_t: word_t=int(c.get('t'))
                         if c.get('r') > word_r: word_r=int(c.get('r'))
                         if c.get('b') > word_b: word_b=int(c.get('b'))
-                        word+=c.text
+                        word+=xstr(c.text)
                
                if word is not '': lineobj.words.append(Word(word, formatting.get('fs'), confidence, word_l, word_t, word_r, word_b))
                word=''
@@ -469,7 +474,8 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
             programList.append(programobj)
             writeXml(programList)
          except:
-            print "SFSKHGLRSGLKREHJGILJHRLGKHLERGLERHGLETRUH" 
+            foo='bar'
+            #print "SFSKHGLRSGLKREHJGILJHRLGKHLERGLERHGLETRUH" 
 
 xml = ET.tostring(root,encoding='utf8', pretty_print=True)      
 fp = open(bn+".xml", "w")
