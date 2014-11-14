@@ -1,0 +1,42 @@
+Google docsconfig file 34 - omroepgidsen.docx 
+
+date_fs=41#dit geldt voor cijfer, maand is Times, Fs 15 en niet vet gedrukt 
+
+date_ff=Arial 
+
+date_bold=1 
+
+time_fs=8 
+
+time_ff=Times 
+
+time_bold=1 
+
+time_separator=. 
+
+prog_name_fs=8 
+
+prog_name_ff=Times 
+
+prog_name_bold=1 
+
+prog_desc_fs=8 
+
+prog_desc_ff=Times 
+
+prog_desc_bold=0 
+
+broadcaster_fs=8 
+
+broadcaster_ff=Times 
+
+broadcaster_bold=0 
+
+broadcaster_loc=inline   
+
+channel_fs=56 
+
+channel_ff=Arial 
+
+channel_bold=1 
+

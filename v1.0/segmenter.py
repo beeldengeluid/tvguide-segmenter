@@ -1,5 +1,49 @@
 #!/usr/bin/python
 
+
+class Week:
+
+   def __init__(self, startDate):
+      
+      self.dow = []
+      startDateFormatted = datetime.datetime.strptime(startDate, "%d-%m-%Y")
+      #self.endDateFormatted = startDateFormatted + datetime.timedelta(days=6)
+
+      self.dow.append(startDateFormatted)
+      for x in xrange(1,7):
+         self.dow.append(startDateFormatted + datetime.timedelta(days=x))
+
+   def getFormattedDate(self, unFormattedDate):
+
+      unFormattedDateNumber = re.findall('([0-9]{1,2})', unFormattedDate, re.I)
+
+      if len(unFormattedDateNumber) > 0:
+         for d in self.dow:
+            if int(d.day) == int(unFormattedDateNumber[0]):
+               #print d
+               return d.strftime("%Y-%m-%d")
+               #print unFormattedDateNumber[0]
+      
+      #for d in self.dow:
+      #   print d
+
+class Concordance:
+
+   def __init__(self, concordanceFile):
+      
+      self.configFilename = {}
+      self.startDate = {}
+      self.endDate = {}
+
+      concordanceFileHandle = open( concordanceFile, "r" )
+      
+      for line in concordanceFileHandle:
+         barcode=re.split('\t', line)[20]
+         self.configFilename[barcode] = re.split('\t', line)[25]
+         self.startDate[barcode] = re.split('\t', line)[32]
+         self.endDate[barcode] = re.split('\t', line)[33]
+      concordanceFileHandle.close()
+
 class Config:
 
    def __init__(self, configFile):
@@ -8,9 +52,11 @@ class Config:
       configFileHandle = open( configFile, "r" )
       for line in configFileHandle:
          if "=" in line:
-            key = re.split('=| ', line)[0]
-            val = re.split('=| ', line)[1]
+            key = re.split('=| ', line.replace("\r", ""))[0]
+            val = re.split('=| ', line.replace("\r", ""))[1]
+            if val is '': val=0
             self.value[key] = val
+            print configFile, key, val
       configFileHandle.close()
       
 
@@ -23,6 +69,7 @@ class Line:
       #self.fontSize = fontSize 
       self.blockIdx = blockIdx 
       self.fontSize = 0
+      self.bold = 0
 
    def getFontSize(self):
       #return average fontsize
@@ -31,6 +78,14 @@ class Line:
          fs+=int(w.fontSize)
       self.fontSize = fs / len(self.words)
       return fs / len(self.words)
+
+#  def getBold(self):
+#     #return wether line contains bold
+#     bold=0
+#     for w in self.words:
+#        if int(w.bold) == 1
+#           bold=1            
+#     return bold
 
 
    def string(self):
@@ -81,14 +136,34 @@ class Line:
 
 
    def getDate(self):
-      #if self.getFontSize() is int(config.value['date_fs']) or int(config.value['date_fs']) is 0: 
-      months = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'oct', 'nov', 'dec']
-      for month in months:
-         mu = month.upper()
-         ml = month.lower()
-         d = re.findall('([0-9]{1,2}[\s]'+mu+'[.])', self.string(), re.I)
-         if len(d) > 0:
-            return d[0]
+      date_fs_upper=int(config.value['date_fs']) + round(int(config.value['date_fs'])*0.15)
+      date_fs_lower=int(config.value['date_fs']) - round(int(config.value['date_fs'])*0.15)
+      #print date_fs_upper, date_fs_lower
+      if self.getFontSize() <= date_fs_upper and self.getFontSize() >= date_fs_lower or int(config.value['date_fs']) is 0: 
+         tags = ['maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag', 'zondag', 'ma', 'di', 'wo', 'do', 'vr', 'zat', 'zon', 'jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'oct', 'okt', 'nov', 'dec', 'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'october', 'oktober', 'november', 'december']
+         for tag in tags:
+            t = re.findall('([\s]'+tag+'[\.]?$)', self.string().lower(), re.I)
+            if len(t) > 0:
+               if len(self.words) < 4:
+                  #print self.string()
+                  #week.getFormattedDate(self.string())
+                  return self.string()
+               
+
+      #   if self.getFontSize() is int(config.value['date_bold']) or int(config.value['date_bold']) is 0: 
+
+      #   months = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'oct', 'nov', 'dec']
+      #   for month in months:
+      #      mu = month.upper()
+      #      ml = month.lower()
+      #      d = re.findall('([0-9]{1,2}[\s]'+mu+'[.])', self.string(), re.I)
+      #      #d = re.findall('([0-9]{1,2}[\s]'+ml+'[.])', self.string(), re.I)
+      #      if len(d) > 0:
+      #         print d[0]
+      #         return d[0]
+
+
+
         
 
    def getBounds(self):
@@ -135,12 +210,15 @@ class Program:
    def __init__(self):
       self.startTime = ''
       self.stopTime = ''
+      self.startTimeFormatted = ''
+      self.stopTimeFormatted = ''
       self.net = ''
       self.broadcaster = ''
       self.description = []
       self.title = ''
       self.src = ''
       self.date = ''
+      self.dateFormatted = ''
       self.l = None
       self.t = None
       self.r = None
@@ -171,6 +249,14 @@ class Program:
       
       return x, y, w, h
 
+
+   def getFormattedTime(self, unFormattedTime):
+      h = re.split('\.|\:', unFormattedTime)[0]
+      m = re.split('\.|\:', unFormattedTime)[1]
+      t = datetime.time(int(h), int(m))
+      return t.strftime("%H:%M:%S")
+
+
 def sortIndex( block ):
    l=block.get('l')
    t=block.get('t')
@@ -191,7 +277,7 @@ import getopt
 from lxml import etree as ET
 from xml.etree.ElementTree import QName
 import re
-
+import datetime
 from xml.dom import minidom
 import json
 
@@ -239,15 +325,23 @@ def writeXml( p ):
          src = ET.SubElement(program, 'source')
          src.text = p.src
    
-   
          date = ET.SubElement(program, 'date')
          date.text = p.date
       
+         dateFormatted = ET.SubElement(program, 'dateFormatted')
+         dateFormatted.text = p.dateFormatted
+
          startTime = ET.SubElement(program, 'startTime')
          startTime.text = p.startTime
+
+         startTimeFormatted = ET.SubElement(program, 'startTimeFormatted')
+         startTimeFormatted.text = p.startTimeFormatted
          
          stopTime = ET.SubElement(program, 'stopTime')
          stopTime.text = p.stopTime
+
+         stopTimeFormatted = ET.SubElement(program, 'stopTimeFormatted')
+         stopTimeFormatted.text = p.stopTimeFormatted
       
          net = ET.SubElement(program, 'net')
          net.text = p.net
@@ -256,20 +350,37 @@ def writeXml( p ):
          broadcaster.text = p.broadcaster
       
          description = ET.SubElement(program, 'desc')
-         description.text = p.string()
+         towrite=p.string().encode('ascii', 'ignore').replace(startTime.text,"")
+         towrite=towrite.replace(stopTime.text, "")
+         description.text = towrite
+         #description.text = p.string()
          
 root = ET.Element('programs')
 root.set('version', '1.0') 
 
+d=''
 
+concordance = Concordance("../Config files per barcode - CoMeRDa gidsen 2012 - Gidsniveau.tsv")
 
 for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the script with one dir=one edition)
    filenames.sort()
    for f in filenames:
       if str(f) != ".xml" :
          bn = os.path.basename(inputdir)
+         root.set('startDate', concordance.startDate[bn]) 
+         root.set('endDate', concordance.endDate[bn]) 
+
+
+         week = Week(concordance.startDate[bn])
          
-         config = Config("/Users/picturae/Desktop/PROJECTS/OMROEPGIDSEN/tvguide-segmenter/configs/"+bn+".txt") #load configfile
+         if os.path.exists("../configs/"+concordance.configFilename[bn]+".txt"):
+            config = Config("../configs/"+concordance.configFilename[bn]+".txt") #load configfile    
+         else:
+            config = Config("../configs/empty_config_file.txt") #load configfile
+         
+
+
+         dir(config)
          print bn
          
          ff = str(inputdir + "/" + str(f))
@@ -314,7 +425,7 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
          
          programList = []
          
-         b=n=t=d=''
+         b=n=t=''
          
          for l in lineList: 
             if l.getDate() is not None: d=l.getDate() 
@@ -334,13 +445,17 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
 
                if len(l.getTime()) is 1:
                   programobj.startTime = l.getTime()[0]
+                  programobj.startTimeFormatted = programobj.getFormattedTime(l.getTime()[0])
                elif len(l.getTime()) is 2:
                   programobj.startTime = l.getTime()[0]
+                  programobj.startTimeFormatted = programobj.getFormattedTime(l.getTime()[0])
                   programobj.stopTime = l.getTime()[1]
+                  programobj.stopTimeFormatted = programobj.getFormattedTime(l.getTime()[1])
 
                programobj.net = n
                programobj.broadcaster = b
                programobj.date = d
+               programobj.dateFormatted = week.getFormattedDate(d)
                programobj.description.append(l.words)
 
             else:
@@ -350,10 +465,11 @@ for fsroot, dirs, filenames in os.walk(inputdir):   #loop all xml's (feed the sc
                   programobj = Program()
                   programobj.description.append(l.words)
 
-         
-         programList.append(programobj)
-         writeXml(programList)
- 
+         try:
+            programList.append(programobj)
+            writeXml(programList)
+         except:
+            print "SFSKHGLRSGLKREHJGILJHRLGKHLERGLERHGLETRUH" 
 
 xml = ET.tostring(root,encoding='utf8', pretty_print=True)      
 fp = open(bn+".xml", "w")

@@ -1,0 +1,42 @@
+Google docsconfig file 11 - omroepgidsen.docx 
+
+date_fs=23 
+
+date_ff=Arial 
+
+date_bold=0 
+
+time_fs=11 
+
+time_ff=Arial 
+
+time_bold=0 
+
+time_separator=. 
+
+prog_name_fs=11 
+
+prog_name_ff=Arial 
+
+prog_name_bold=0 
+
+prog_desc_fs=8 
+
+prog_desc_ff=Arial 
+
+prog_desc_bold=0 
+
+broadcaster_fs=11 
+
+broadcaster_ff=Arial 
+
+broadcaster_bold=0 
+
+broadcaster_loc=above  #NOS wordt tussen haakjes en inline aangegeven 
+
+channel_fs=42 
+
+channel_ff=Arial 
+
+channel_bold=1
+

@@ -1,0 +1,38 @@
+Google docsconfig file 44 - omroepgidsen.docx 
+
+#datum niet in txt file, is wit met zwarte rand 
+
+time_fs=9 
+
+time_ff=Arial 
+
+time_bold=0 
+
+time_separator=. 
+
+prog_name_fs=9 
+
+prog_name_ff=Arial 
+
+prog_name_bold=0 
+
+prog_desc_fs=8 
+
+prog_desc_ff=Arial 
+
+prog_desc_bold=0 
+
+broadcaster_fs=8 
+
+broadcaster_ff=Arial 
+
+broadcaster_bold=0 
+
+broadcaster_loc=above 
+
+channel_fs=16 
+
+channel_ff=Arial 
+
+channel_bold=1 
+

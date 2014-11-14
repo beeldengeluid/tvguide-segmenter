@@ -1,0 +1,34 @@
+Google docsconfig file 17 - omroepgidsen.docx 
+
+#datum niet aangegeven 
+
+time_fs=7 
+
+time_ff=Times 
+
+time_bold=0 
+
+time_separator=. 
+
+prog_name_fs=7 
+
+prog_name_ff=Times 
+
+prog_name_bold=0 
+
+prog_desc_fs=7 
+
+prog_desc_ff=Times 
+
+prog_desc_bold=0 
+
+broadcaster_fs=11 
+
+broadcaster_ff=Times 
+
+broadcaster_bold=1 
+
+broadcaster_loc=above 
+
+#kanaal niet aangegeven 
+

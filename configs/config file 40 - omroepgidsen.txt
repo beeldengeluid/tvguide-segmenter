@@ -1,0 +1,38 @@
+Google docsconfig file 40 - omroepgidsen.docx 
+
+#date niet in txt file want deze wordt verticaal op zijn kant aangegeven 
+
+time_fs=9 
+
+time_ff=Arial 
+
+time_bold=1 
+
+time_separator=. 
+
+prog_name_fs=9 
+
+prog_name_ff=Arial 
+
+prog_name_bold=1 
+
+prog_desc_fs=9 
+
+prog_desc_ff=Arial 
+
+prog_desc_bold=0 
+
+broadcaster_fs=9 
+
+broadcaster_ff=Arial 
+
+broadcaster_bold=1 
+
+broadcaster_loc=inline 
+
+channel_fs=17 
+
+channel_ff=Arial 
+
+channel_bold=0 
+

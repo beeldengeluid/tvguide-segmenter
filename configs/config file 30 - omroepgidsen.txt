@@ -1,0 +1,42 @@
+Google docsconfig file 30 - omroepgidsen.docx 
+
+date_fs=14 
+
+date_ff=Times 
+
+date_bold=0 
+
+time_fs=9 
+
+time_ff=Times 
+
+time_bold=0 
+
+time_separator=. 
+
+prog_name_fs=9 
+
+prog_name_ff=Times 
+
+prog_name_bold=0 
+
+prog_desc_fs=9 
+
+prog_desc_ff=Times 
+
+prog_desc_bold=0 
+
+broadcaster_fs=20 
+
+broadcaster_ff=Times 
+
+broadcaster_bold=0 
+
+broadcaster_loc=above      #NOS tussen haakjes en inline 
+
+channel_fs=22 
+
+channel_ff=Times 
+
+channel_bold=1
+

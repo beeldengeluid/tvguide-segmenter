@@ -1,0 +1,42 @@
+Google docsconfig file 45 - omroepgidsen.docx 
+
+date_fs=12 
+
+date_ff=Arial 
+
+date_bold=1 
+
+time_fs=6 
+
+time_ff=Arial 
+
+time_bold=0 
+
+time_separator=. 
+
+prog_name_fs=6 
+
+prog_name_ff=Arial 
+
+prog_name_bold=0 
+
+prog_desc_fs=6 
+
+prog_desc_ff=Arial 
+
+prog_desc_bold=0 
+
+broadcaster_fs=6 
+
+broadcaster_ff=Arial 
+
+broadcaster_bold=0 
+
+broadcaster_loc=above 
+
+channel_fs=12 
+
+channel_ff=Arial 
+
+channel_bold=1 
+
